@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/components/auth-provider'
@@ -14,6 +14,43 @@ import { Leaf } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 
 export default function LoginPage() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+      <Header />
+      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Suspense fallback={<LoginFormSkeleton />}>
+          <LoginForm />
+        </Suspense>
+      </div>
+    </div>
+  )
+}
+
+function LoginFormSkeleton() {
+  return (
+    <Card className="w-full max-w-md">
+      <CardHeader className="text-center">
+        <div className="flex justify-center mb-4">
+          <Leaf className="h-12 w-12 text-green-600" />
+        </div>
+        <CardTitle className="text-2xl">Welcome Back</CardTitle>
+        <CardDescription>
+          Sign in to your RubberConnect account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4 animate-pulse">
+          <div className="h-10 bg-gray-200 rounded"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [userType, setUserType] = useState<'farmer' | 'buyer'>('farmer') // Updated initial state
@@ -49,74 +86,69 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      <Header />
-      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <Leaf className="h-12 w-12 text-green-600" />
-            </div>
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
-            <CardDescription>
-              Sign in to your RubberConnect account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="userType">Account Type</Label>
-                <Select value={userType} onValueChange={(value: 'farmer' | 'buyer') => setUserType(value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="farmer">Farmer</SelectItem>
-                    <SelectItem value="buyer">Buyer</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="your@email.com"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Enter your password"
-                />
-              </div>
-              
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Signing in...' : 'Sign In'}
-              </Button>
-            </form>
-            
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
-                <Link href="/register" className="text-green-600 hover:underline">
-                  Register here
-                </Link>
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <Card className="w-full max-w-md">
+      <CardHeader className="text-center">
+        <div className="flex justify-center mb-4">
+          <Leaf className="h-12 w-12 text-green-600" />
+        </div>
+        <CardTitle className="text-2xl">Welcome Back</CardTitle>
+        <CardDescription>
+          Sign in to your RubberConnect account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="userType">Account Type</Label>
+            <Select value={userType} onValueChange={(value: 'farmer' | 'buyer') => setUserType(value)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="farmer">Farmer</SelectItem>
+                <SelectItem value="buyer">Buyer</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="your@email.com"
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+          
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign In'}
+          </Button>
+        </form>
+        
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{' '}
+            <Link href="/register" className="text-green-600 hover:underline">
+              Register here
+            </Link>
+          </p>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
