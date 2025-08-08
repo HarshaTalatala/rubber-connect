@@ -20,9 +20,10 @@ export function RegisterForm() {
   const [userType, setUserType] = useState<'farmer' | 'buyer'>('farmer')
   const [loading, setLoading] = useState(false)
   
+  // Using suspense boundary automatically when using client hooks like useSearchParams
   const { register } = useAuth()
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams() // This is wrapped in Suspense in the parent
   const { toast } = useToast()
 
   // Set user type from URL params

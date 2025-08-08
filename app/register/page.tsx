@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Header } from '@/components/header'
 import { RegisterForm, RegisterFormSkeleton } from '@/components/register-form'
 
+// This is a server component that uses Suspense to wrap the client component
 export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">

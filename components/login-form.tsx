@@ -18,9 +18,10 @@ export function LoginForm() {
   const [userType, setUserType] = useState<'farmer' | 'buyer'>('farmer')
   const [loading, setLoading] = useState(false)
   
+  // Using suspense boundary automatically when using client hooks like useSearchParams
   const { login } = useAuth()
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams() // This is wrapped in Suspense in the parent
   const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {

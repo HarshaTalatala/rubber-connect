@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Header } from '@/components/header'
 import { LoginForm, LoginFormSkeleton } from '@/components/login-form'
 
+// This is a server component that uses Suspense to wrap the client component
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
